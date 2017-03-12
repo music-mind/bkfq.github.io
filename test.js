@@ -1,40 +1,42 @@
-// test.js 
+var cats = {};
 
-// reads data from leap controller and displays it in a loop
+Leap.loop(function(frame) {
 
-var output = document.getElementById('output');
+  frame.hands.forEach(function(hand, index) {
+    
+    var cat = ( cats[index] || (cats[index] = new Cat()) );    
+    cat.setTransform(hand.screenPosition(), hand.roll());
+    
+  });
+  
+}).use('screenPosition', {scale: 0.25});
 
-var fromString = "";
-var handString ="";
-var fingerString = "";
-var hand, finger;
 
-var options = { enableGestures: true};
-
-function dataFormat(id, data){
-    return id + ": " + data + "<br>";
-}
-
-// Main Loop
-
-Leap.loop(options, function(frame) {
-
-    frameString = dataFormat("frame id", frame.id);
-    frameString+= dataFormat("num_hands", frame.hands.length);
-    frameString+= dataFormat("num_fingers", frame.fingers.length);
-
-    for (var i=0; i<frame.hands.length;i++){
-	hand = frame.hands[i];
-	handString = dataFormat("hand_type", hand.type);
-	handString+= dataFormat("grip_strength", hand.grabStrength);
+var Cat = function() {
+  var cat = this;
+  var img = document.createElement('img');
+  img.src = 'down.png';
+  img.style.position = 'absolute';
+  img.onload = function () {
+    cat.setTransform([window.innerWidth/2,window.innerHeight/2], 0);
+    document.body.appendChild(img);
+  }
+  
+  cat.setTransform = function(position, rotation) {
 	
-	frameString+="<br>";
-	frameString+=handString;
-   }
+    img.style.left = position[0] - img.width  / 2 + 'px';
+    img.style.top  = position[1] - img.height / 2 + 'px';
 
-    output.innerHTML = frameString;
+	img.style.transform = 'rotate(' + -rotation + 'rad)';
+	
+    img.style.webkitTransform = img.style.MozTransform = img.style.msTransform =
+    img.style.OTransform = img.style.transform;
 
-});
+  };
 
+};
 
+cats[0] = new Cat();
 
+// This allows us to move the cat even whilst in an iFrame.
+Leap.loopController.setBackground(true)
