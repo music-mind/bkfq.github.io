@@ -24,10 +24,12 @@ var hand;
 
 
 // variables for keeping tracking of answer, gameover,
-var questions = ["question1", "question2"];
+var questions = ["Comments made online are harmless.",
+		 "People should be treated the same online as they are treated in person."
+		 "Getting involved only worsens the situation."];
 var userAnswers = [];
 
-var answers = [true, false];
+var answers = [false, true, false];
 var questionIndex = -1;
 var ended = false;
 var currentAnswer;
