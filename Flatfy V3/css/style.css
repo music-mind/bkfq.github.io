@@ -6,6 +6,15 @@ Build: 1.0
 http://www.andreagalanti.it
 */
 
+#box {
+  width: 800px; /* 75% */
+  margin: 50px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #404040;
+  box-shadow: 0 0 300px #000;
+}
+
 @font-face {
   font-family: 'Lato';
   src: url('../fonts/lato/lato-black.eot');
@@ -208,6 +217,9 @@ you can use the generic selector below, but it's slower:
   border-top-color: #34495e !important;
 }
 body {
+  background: url("../valley.jpg");
+  background-size: cover;
+  background-attachment: fixed;
 	height: 100%;
 	width: 100%;
   font-family: "Lato", Helvetica, Arial, sans-serif;

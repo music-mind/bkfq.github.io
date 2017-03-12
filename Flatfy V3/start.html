@@ -1,12 +1,53 @@
 <!DOCTYPE html>
 
+
+
 <html>
     <head>
+    	    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+ 
+    <!-- Custom Google Web Font -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+	
+    <!-- Custom CSS-->
+    <link href="css/general.css" rel="stylesheet">
+	
+	 <!-- Owl-Carousel -->
+    <link href="css/custom.css" rel="stylesheet">
+	<link href="css/owl.carousel.css" rel="stylesheet">
+    <link href="css/owl.theme.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/animate.css" rel="stylesheet">
+	
+	<!-- Magnific Popup core CSS file -->
+	<link rel="stylesheet" href="css/magnific-popup.css"> 
+	
+	<script src="js/modernizr-2.8.3.min.js"></script> 
     </head>
 
-    <body>
+    <body>	<div id="box">
 	<h1> StarterHacks 2017 </h1>
+		<a class="btn btn-embossed btn-primary" href="index.html" role="button">Go Back</a>
 	<div id=output></div>
+	<div id='container'>
+			<div id='title'>
+				<h3>How Well Do You Understand Harassment?</h3>
+			</div>
+   			<br/>
+  			<div id='quiz'></div>
+    		<div class='button' id='next'><a href='#'>Next</a></div>
+    		<div class='button' id='prev'><a href='#'>Prev</a></div>
+    		<!-- <button class='' id='next'>Next</a></button>
+    		<button class='' id='prev'>Prev</a></button>
+    		<button class='' id='start'> Start Over</a></button> -->
+    	</div>
+
+		<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+		<script type="text/javascript" src='questions.json'></script>
+		<script type='text/javascript' src='jsquiz.js'></script>
 
 
 <!--<p id="demo"></p> -->
@@ -26,10 +67,11 @@
 
 </script>
 
-    </body>
 
 <script src="http://js.leapmotion.com/leap-0.6.3.js"></script>
 <script src="http://js.leapmotion.com/leap-plugins-0.1.8.js"></script>
 <script src="test.js"></script>
+</div>
+</body>
 
 </html>
