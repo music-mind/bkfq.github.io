@@ -22,11 +22,32 @@ var hand;
 //var inTransition = false;
 //var transitionFrame = 0;
 
+
 // variables for keeping tracking of answer, gameover,
+var questions = ["question1", "question2"];
+var userAnswers = [];
+
 var answers = [true, false];
 var questionIndex = -1;
 var ended = false;
 var currentAnswer;
+
+function showQuestion(text){
+    document.getElementById("question").innerHTML = text;
+}
+function hideQuestion(){
+    document.getElementById("question").innerHTML = "";
+}
+
+function showResults(){
+    var correct = 0;
+    for (var i=0; i< questions.length;i++){
+        if (userAnswers[i]==answers[i]){
+            correct++;
+        }
+    }
+    document.getElementById("results").innerHTML = correct+"/"+questions.length;
+}
 
 Leap.loop(function(frame) {
 
@@ -80,7 +101,7 @@ Leap.loop(function(frame) {
             document.getElementById("message").innerHTML = "Show open palm to view your results!";
 
         }
-
+        document.getElementById("question").style.visibility = "hidden";
         hand = frame.hands[0];
 
         if (!started && hand) {
@@ -232,8 +253,10 @@ function myFunction4() {
     if (x) {
 	// sets currentAnswer based on the displayed text
 	setCurrentAnswer();
-        document.getElementById("count").innerHTML = "Congratulations!";
+    document.getElementById("count").innerHTML = "Congratulations!";
 	//inTransition = true;
+
+
 	document.getElementById("count").style.visibility = "hidden";
 	if (currentAnswer == answers[questionIndex]){
 	    if (answers[questionIndex] == true){
@@ -248,7 +271,7 @@ function myFunction4() {
 	    img.src = "close.png"
 	}
 
-	
+	userAnswers[questionIndex] = currentAnswer;
 		started = false;
 
 	//if (questionIndex < answers.length - 1) {
@@ -271,9 +294,12 @@ function next() {
 		ended = true;
         document.getElementById("count").style.visibility = "hidden";
         img.src = "smiley.png";
+        document.getElementById("question").style.visibility = "hidden";
+        showResults();
 		return;
     }
-
+    showQuestion(questions[questionIndex]);
+    document.getElementById("question").style.visibility = "visible";
     document.getElementById("message").innerHTML = "Thumbs up or Thumbs down!";
     document.getElementById("count").innerHTML = "Please hold still.";
     x = false;
