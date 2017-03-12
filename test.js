@@ -4,6 +4,9 @@ Leap.loop(function(frame) {
 
   frame.hands.forEach(function(hand, index) {
     
+    if (index>0){
+       return;
+    }
     var cat = ( cats[index] || (cats[index] = new Cat()) );    
     cat.setTransform(hand.screenPosition(), hand.roll(), hand.grabStrength);
     
@@ -12,6 +15,12 @@ Leap.loop(function(frame) {
 }).use('screenPosition', {scale: 0.25});
 
 
+var x = false;
+var event = false;
+var mrVar = 0;
+var check2 = false;
+var check3 = false;
+var check4 = false;
 
 var Cat = function() {
   var cat = this;
@@ -29,17 +38,42 @@ var Cat = function() {
 
 if (grip == 1) {
 	if (rotation > -1.8 && rotation < -1.3) {
-		document.getElementById("message").innerHTML = "Hold your thumbs up!";
+		document.getElementById("message").innerHTML = "Keep your thumbs up!";
+		if (!x) {
+			if (event) {
+			clearTimeout(myVar);
+			}
+			event = true;
+			myVar = setTimeout(myFunction, 1000);
+			
+			x = true;
+		}
 	}
 	else if (rotation > 1.1 && rotation < 1.6) {
-		document.getElementById("message").innerHTML = "Hold your thumbs down!";
+		document.getElementById("message").innerHTML = "Keep your thumbs down!";
+		if (!x) {
+			if (event) {
+			clearTimeout(myVar);
+			}
+			event = true;
+			myVar = setTimeout(myFunction, 1000);
+			x = true;
+		}
 	}
 	else {
 		document.getElementById("message").innerHTML = "Thumbs up or Thumbs down!";
+		if (x) {
+			x = false;
+			document.getElementById("count").innerHTML = "Please hold still.";
+		}
 	}
 }
 	else {
 		document.getElementById("message").innerHTML = "Thumbs up or Thumbs down!";
+		if (x) {
+			x = false;
+			document.getElementById("count").innerHTML = "Please hold still.";
+		}
 	}
 
     img.style.left = position[0] - img.width  / 2 + 'px';
@@ -53,6 +87,56 @@ if (grip == 1) {
   };
 
 };
+
+
+
+function myFunction() {
+	if (x) {
+    		document.getElementById("count").innerHTML = "3";
+		myVar = setTimeout(myFunction2, 1000);
+	}
+	else {
+		document.getElementById("count").innerHTML = "Please hold still.";
+	}
+}
+
+function myFunction2() {
+	if (x) {
+    		document.getElementById("count").innerHTML = "2";
+		myVar = setTimeout(myFunction3, 1000);
+	}
+	else {
+		document.getElementById("count").innerHTML = "Please hold still.";
+	}
+}
+
+function myFunction3() {
+	if (x) {
+    		document.getElementById("count").innerHTML = "1";
+		myVar = setTimeout(myFunction4, 1000);
+	}
+	else {
+		document.getElementById("count").innerHTML = "Please hold still.";
+	}
+}
+
+function myFunction4() {
+	if (x) {
+    		document.getElementById("count").innerHTML = "Congratulations!";
+		document.getElementById("next").style.visibility = 'visible';
+	}
+	else {
+		document.getElementById("count").innerHTML = "Please hold still.";
+	}
+}
+
+
+function reset() {
+	document.getElementById("message").innerHTML = "Thumbs up or Thumbs down!";
+	document.getElementById("count").innerHTML = "Please hold still.";
+	document.getElementById("next").style.visibility="hidden";
+	x = false;
+}
 
 
 
