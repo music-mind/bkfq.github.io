@@ -5,11 +5,11 @@
     </head>
 
     <body>
-	<h1> Hello, LeapJS </h1>
+	<h1> StarterHacks 2017 </h1>
 	<div id=output></div>
-	<img id="myImage" src="up.jpg" style="width:100px">
 
-<p id="demo"></p>
+
+<!--<p id="demo"></p> -->
 
 <p id="message"></p>
 
@@ -19,16 +19,18 @@
 
 
 <script>
-	document.getElementById("message").innerHTML = "Thumbs up or Thumbs down!";
-	document.getElementById("count").innerHTML = "Please hold still.";
+	document.getElementById("message").innerHTML="Show open palm to start!";
+	document.getElementById("count").style.visibility="hidden";
 	document.getElementById("next").style.visibility="hidden";
+	//document.getElementById("demo").style.visibility="hidden";
+
 </script>
 
     </body>
 
 <script src="http://js.leapmotion.com/leap-0.6.3.js"></script>
 <script src="http://js.leapmotion.com/leap-plugins-0.1.8.js"></script>
-
+<script src="intro.js"></script>
 <script src="test.js"></script>
 
 </html>
