@@ -1,44 +1,79 @@
 var cats = {};
 
-
 function show() {
     document.getElementById("count").style.visibility = "visible";
     //document.getElementById("demo").style.visibility="visible";
     img.style.visibility = "visible";
-
 }
 
-document.getElementById("message").style.visibility="hidden";
+// hand visibility
+var handVisible = true;
 
-
-
+// variable for detecting open palm
 var lastPos = [0, 0, 0];
 var currentPos = [];
-
 var counter = 0;
-
 var startPos;
 var started = false;
 var hand;
 
+// variables for keeping track of transition
+// and swiping
+var inTransition = false;
+var transitionFrame = 0;
+
+// variables for keeping tracking of answer, gameover,
+var answers = [true, false];
+var questionIndex = -1;
+var ended = false;
+var currentAnswer;
+
 Leap.loop(function(frame) {
 
-
-
     if (started) {
-        frame.hands.forEach(function(hand, index) {
-
-            if (index > 0) {
-                return;
-            }
-            var cat = (cats[index] || (cats[index] = new Cat()));
-            cat.setTransform(hand.screenPosition(), hand.roll(), hand.grabStrength);
-
-        });
-    } else {
+	// make hand disappear when the LEAP can't find detect it
+	if (frame.hands.length == 0 && handVisible){
+	    handVisible = false;
+	    img.style.visibility = "hidden";
+	}
+	if (frame.hands.length != 0 && !handVisible){
+	    handVisible = true;
+	    img.style.visibility = "visible";
+	}
 	
-	document.getElementById("message").style.visibility="visible";	
+	// in a transition period, do something before the next question
+	if (!ended && inTransition){
 
+	    if(transitionFrame >= 120){
+		inTransition = false;
+		img.src = "down.png";
+		transitionFrame = 0;
+		next();
+	    }
+
+	    transitionFrame++;
+	}
+	
+	// if hand is visible, we do thumbs up checking
+	if (handVisible){
+	    frame.hands.forEach(function(hand, index) {
+		if (index > 0) {
+		    return;
+		}
+		var cat = (cats[index] || (cats[index] = new Cat()));
+		cat.setTransform(hand.screenPosition(), hand.roll(), hand.grabStrength);
+	    });
+
+	}
+	
+	if (ended) {
+	    document.getElementById("message").innerHTML = "Thanks for playing!";
+	    document.getElementById("count").visibility = "hidden";
+	}
+    }
+    
+    else {
+	
         if (document.getElementById("message").innerHTML != "Show open palm to start!") {
             document.getElementById("message").innerHTML = "Show open palm to start!";
         }
@@ -49,7 +84,6 @@ Leap.loop(function(frame) {
             if (hand.grabStrength > 0) {
                 counter = 0;
             }
-
 
             currentPos = hand.palmPosition;
 
@@ -65,7 +99,7 @@ Leap.loop(function(frame) {
                 startPos = currentPos;
                 started = true;
 
-                reset();
+                next();
                 show();
             }
 
@@ -77,7 +111,6 @@ Leap.loop(function(frame) {
 }).use('screenPosition', {
     scale: 0.25
 });
-
 
 
 var x = false;
@@ -150,15 +183,10 @@ var Cat = function() {
 
     };
 
-	img.style.visibility = "hidden";
+    img.style.visibility = "hidden";
 
 
 };
-
-
-
-
-
 
 
 function myFunction() {
@@ -190,27 +218,61 @@ function myFunction3() {
 
 function myFunction4() {
     if (x) {
+	// sets currentAnswer based on the displayed text
+	setCurrentAnswer();
         document.getElementById("count").innerHTML = "Congratulations!";
-        document.getElementById("next").style.visibility = 'visible';
+	inTransition = true;
+
+	if (currentAnswer == answers[questionIndex]){
+	    if (answers[questionIndex] == true){
+		img.src = "check-true.png";
+	    }
+	    else{
+		img.src = "check-false.png";
+	    }
+	}
+
+	else{
+	    img.src = "close.png"
+	}
+	
     } else {
         document.getElementById("count").innerHTML = "Please hold still.";
     }
 }
 
+// goes to the next question. does some clean up
 
-function reset() {
+function next() {
+    
+
+    questionIndex++;
+    if (questionIndex >= answers.length){
+	ended = true;
+	return;
+    }
+
     document.getElementById("message").innerHTML = "Thumbs up or Thumbs down!";
     document.getElementById("count").innerHTML = "Please hold still.";
-    document.getElementById("next").style.visibility = "hidden";
     x = false;
+
+
+    console.log(answers[questionIndex]);
+}
+
+function setCurrentAnswer(){
+    var text = document.getElementById("message").innerHTML;
+    if (text.includes("down")){
+	currentAnswer = false;
+    }
+    else{
+	currentAnswer = true
+    }
 }
 
 
 
-
 cats[0] = new Cat();
-
-
 
 // This allows us to move the cat even whilst in an iFrame.
 //Leap.loopController.setBackground(true)
