@@ -19,8 +19,8 @@ var hand;
 
 // variables for keeping track of transition
 // and swiping
-var inTransition = false;
-var transitionFrame = 0;
+//var inTransition = false;
+//var transitionFrame = 0;
 
 // variables for keeping tracking of answer, gameover,
 var answers = [true, false];
@@ -42,7 +42,7 @@ Leap.loop(function(frame) {
 	}
 	
 	// in a transition period, do something before the next question
-	if (!ended && inTransition){
+	/*if (!ended && inTransition){
 
 	    if(transitionFrame >= 120){
 		inTransition = false;
@@ -52,7 +52,7 @@ Leap.loop(function(frame) {
 	    }
 
 	    transitionFrame++;
-	}
+	}*/
 	
 	// if hand is visible, we do thumbs up checking
 	if (handVisible){
@@ -74,8 +74,8 @@ Leap.loop(function(frame) {
     
     else {
 	
-        if (document.getElementById("message").innerHTML != "Show open palm to start!") {
-            document.getElementById("message").innerHTML = "Show open palm to start!";
+        if (document.getElementById("message").innerHTML != "Show open palm to start the next question!") {
+            document.getElementById("message").innerHTML = "Show open palm to start the next question!";
         }
         hand = frame.hands[0];
 
@@ -98,7 +98,7 @@ Leap.loop(function(frame) {
             if (counter >= 30) {
                 startPos = currentPos;
                 started = true;
-
+                img.src = "down.png";
                 next();
                 show();
             }
@@ -221,8 +221,8 @@ function myFunction4() {
 	// sets currentAnswer based on the displayed text
 	setCurrentAnswer();
         document.getElementById("count").innerHTML = "Congratulations!";
-	inTransition = true;
-
+	//inTransition = true;
+	document.getElementById("count").style.visibility = "hidden";
 	if (currentAnswer == answers[questionIndex]){
 	    if (answers[questionIndex] == true){
 		img.src = "check-true.png";
@@ -235,6 +235,7 @@ function myFunction4() {
 	else{
 	    img.src = "close.png"
 	}
+	started = false;
 	
     } else {
         document.getElementById("count").innerHTML = "Please hold still.";
@@ -248,8 +249,8 @@ function next() {
 
     questionIndex++;
     if (questionIndex >= answers.length){
-	ended = true;
-	return;
+		ended = true;
+		return;
     }
 
     document.getElementById("message").innerHTML = "Thumbs up or Thumbs down!";
