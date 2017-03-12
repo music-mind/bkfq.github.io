@@ -1,18 +1,80 @@
 var cats = {};
 
+
+function show(){
+	document.getElementById("count").style.visibility="visible";
+	//document.getElementById("demo").style.visibility="visible";
+	img.style.visibility = "visible";
+	
+}
+
+
+
+var lastPos = [0,0,0];
+var currentPos = [];
+
+var counter = 0;
+
+var startPos;
+var started = false;
+var hand;
+
 Leap.loop(function(frame) {
 
-  frame.hands.forEach(function(hand, index) {
+  if (started){
+    frame.hands.forEach(function(hand, index) {
     
-    if (index>0){
-       return;
-    }
-    var cat = ( cats[index] || (cats[index] = new Cat()) );    
-    cat.setTransform(hand.screenPosition(), hand.roll(), hand.grabStrength);
+	if (index>0){
+	    return;
+	}
+	var cat = ( cats[index] || (cats[index] = new Cat()) );    
+	cat.setTransform(hand.screenPosition(), hand.roll(), hand.grabStrength);
     
-  });
+    });
+  }
+
+  
+  else{
+
+	if (document.getElementById("message").innerHTML != "Show open palm to start!"){
+	document.getElementById("message").innerHTML="Show open palm to start!";
+	img.style.visibility="hidden";
+	console.log("flipped");
+}
+	hand = frame.hands[0];
+    
+	if (!started && hand){  
+	    // check if hand is open
+	    if (hand.grabStrength> 0){
+	    counter = 0;
+	    }
+	
+	
+	    currentPos = hand.palmPosition;
+
+	    for (var i=0; i< 3;i++){
+		if (Math.abs(currentPos[i]-lastPos[i])>=2){
+		    counter = 0;
+		}
+	    }
+
+	    lastPos = currentPos;
+
+	    if (counter>=30){
+		startPos = currentPos;
+		started = true;
+		
+		reset();
+		show();
+	    }
+
+	    counter++;
+	}
+  }
+
   
 }).use('screenPosition', {scale: 0.25});
+
 
 
 var x = false;
@@ -22,9 +84,11 @@ var check2 = false;
 var check3 = false;
 var check4 = false;
 
+var img;
+
 var Cat = function() {
   var cat = this;
-  var img = document.createElement('img');
+  img = document.createElement('img');
   img.src = 'down.png';
   img.style.position = 'absolute';
   img.onload = function () {
@@ -34,7 +98,7 @@ var Cat = function() {
   
   cat.setTransform = function(position, rotation, grip) {
 	
-	document.getElementById("demo").innerHTML = rotation;
+	//document.getElementById("demo").innerHTML = rotation;
 
 if (grip == 1) {
 	if (rotation > -1.8 && rotation < -1.3) {
@@ -137,6 +201,7 @@ function reset() {
 	document.getElementById("next").style.visibility="hidden";
 	x = false;
 }
+
 
 
 
