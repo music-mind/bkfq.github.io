@@ -102,8 +102,9 @@ Leap.loop(function(frame) {
                 startPos = currentPos;
                 started = true;
                 img.src = "down.png";
-                next();
+                
                 show();
+                next();
             }
 
             counter++;
@@ -267,6 +268,7 @@ function next() {
     questionIndex++;
     if (questionIndex >= answers.length){
 		ended = true;
+        document.getElementById("count").style.visibility = "hidden";
 		return;
     }
 
