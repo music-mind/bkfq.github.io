@@ -78,6 +78,7 @@ Leap.loop(function(frame) {
         }
         else {
             document.getElementById("message").innerHTML = "Show open palm to view your results!";
+
         }
 
         hand = frame.hands[0];
@@ -269,6 +270,7 @@ function next() {
     if (questionIndex >= answers.length){
 		ended = true;
         document.getElementById("count").style.visibility = "hidden";
+        img.src = "smiley.png";
 		return;
     }
 
