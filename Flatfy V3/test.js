@@ -73,10 +73,13 @@ Leap.loop(function(frame) {
     }
     
     else {
-	
-        if (document.getElementById("message").innerHTML != "Show open palm to start the next question!") {
+        if (questionIndex < answers.length - 1) {
             document.getElementById("message").innerHTML = "Show open palm to start the next question!";
         }
+        else {
+            document.getElementById("message").innerHTML = "Show open palm to view your results!";
+        }
+
         hand = frame.hands[0];
 
         if (!started && hand) {
@@ -105,6 +108,13 @@ Leap.loop(function(frame) {
 
             counter++;
         }
+    
+    /*else {
+    	started = true;
+    	next();
+    	img.style.visibility = "visible";
+    	img.src = "smiley.png";
+    }*/
     }
 
 
@@ -144,7 +154,7 @@ var Cat = function() {
                         clearTimeout(myVar);
                     }
                     event = true;
-                    myVar = setTimeout(myFunction, 1000);
+                    myVar = setTimeout(myFunction, 750);
 
                     x = true;
                 }
@@ -192,7 +202,7 @@ var Cat = function() {
 function myFunction() {
     if (x) {
         document.getElementById("count").innerHTML = "3";
-        myVar = setTimeout(myFunction2, 1000);
+        myVar = setTimeout(myFunction2, 750);
     } else {
         document.getElementById("count").innerHTML = "Please hold still.";
     }
@@ -201,7 +211,7 @@ function myFunction() {
 function myFunction2() {
     if (x) {
         document.getElementById("count").innerHTML = "2";
-        myVar = setTimeout(myFunction3, 1000);
+        myVar = setTimeout(myFunction3, 750);
     } else {
         document.getElementById("count").innerHTML = "Please hold still.";
     }
@@ -210,7 +220,7 @@ function myFunction2() {
 function myFunction3() {
     if (x) {
         document.getElementById("count").innerHTML = "1";
-        myVar = setTimeout(myFunction4, 1000);
+        myVar = setTimeout(myFunction4, 750);
     } else {
         document.getElementById("count").innerHTML = "Please hold still.";
     }
@@ -235,9 +245,16 @@ function myFunction4() {
 	else{
 	    img.src = "close.png"
 	}
-	started = false;
+
 	
-    } else {
+		started = false;
+
+	//if (questionIndex < answers.length - 1) {
+	//	started = true;
+	//	next
+    //} 
+	}
+    else {
         document.getElementById("count").innerHTML = "Please hold still.";
     }
 }
@@ -259,6 +276,7 @@ function next() {
 
 
     console.log(answers[questionIndex]);
+    console.log(questionIndex);
 }
 
 function setCurrentAnswer(){
