@@ -48,7 +48,7 @@ function showResults(){
             correct++;
         }
     }
-    document.getElementById("results").innerHTML = correct+"/"+questions.length;
+    document.getElementById("results").innerHTML = "You scored " + correct + " / " + questions.length + "!";
 }
 
 Leap.loop(function(frame) {
@@ -163,7 +163,7 @@ var Cat = function() {
     img.src = 'down.png';
     img.style.position = 'absolute';
     img.onload = function() {
-        cat.setTransform([window.innerWidth / 2, window.innerHeight / 2], 0);
+        cat.setTransform([window.innerWidth / 5 * 3, window.innerHeight / 2], 0);
         document.body.appendChild(img);
     }
 
