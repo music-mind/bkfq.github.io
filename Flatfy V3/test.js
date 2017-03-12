@@ -25,7 +25,7 @@ var hand;
 
 // variables for keeping tracking of answer, gameover,
 var questions = ["Comments made online are harmless.",
-		 "People should be treated the same online as they are treated in person."
+		 "People should be treated the same online as they are treated in person.",
 		 "Getting involved only worsens the situation."];
 var userAnswers = [];
 
